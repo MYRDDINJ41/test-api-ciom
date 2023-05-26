@@ -2,8 +2,7 @@ import { Router } from "express";
 import {
   getSolutions,
   getCategories,
-  getSubCategories,
-  getVidSubCategories,
+  getStorageCategories,
   createSolution,
   deleteSolution,
   updateSolution
@@ -14,8 +13,7 @@ const router = Router();
 router
   .get("/solutions", getSolutions)
   .get("/categories", getCategories)
-  .get("/sub-categories", getSubCategories)
-  .get("/vidSubCategories", getVidSubCategories)
+  .get("/vidSubCategories", getStorageCategories)
 
   .post("/solutions", createSolution)
 

@@ -12,28 +12,19 @@ export const getSolutions = async (req, res) => {
 
 export const getCategories = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM main_category");
+    const [rows] = await db.query("SELECT * FROM category_solution");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-export const getSubCategories = async (req, res) => {
+export const getStorageCategories = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM sub_category");
+    const [rows] = await db.query("SELECT * FROM storage_category");
     res.json(rows);
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
-  }
-};
-
-export const getVidSubCategories = async (req, res) => {
-  try {
-    const [rows] = await db.query("SELECT * FROM vid_sub_category");
-    res.json(rows);
-  } catch (error) {
-    return res.status(500).json({ message: "Somethin went wrong" });
   }
 };
 
