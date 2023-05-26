@@ -13,7 +13,7 @@ const router = Router();
 router
   .get("/solutions", getSolutions)
   .get("/categories", getCategories)
-  .get("/vidSubCategories", getStorageCategories)
+  .get("/storage-categories", getStorageCategories)
 
   .post("/solutions", createSolution)
 
