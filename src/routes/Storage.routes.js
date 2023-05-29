@@ -7,6 +7,7 @@ router
     .get("/storages", getStorage)
     .get("/storage/:id", getStorageById)
     .post("/create-storage", createStorage)
+    // id de la categoria
     .delete("/delete-storage/:id", deleteStorage)
     .patch("/update-storage-category/:id", updateStorage)
 
