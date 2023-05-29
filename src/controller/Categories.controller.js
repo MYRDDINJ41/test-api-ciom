@@ -9,6 +9,16 @@ export const getCategories = async (req, res) => {
     }
 };
 
+export const getCategoryId = async (req, res) => {
+  try {
+    const id = [req.params.id]
+    const [rows] = await db.query("SELECT * FROM category_solution WHERE id_category = ?", [id])
+    res.json(rows);
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 export const createCategory = async (req, res) => {
     try {
       const [ rows ] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?", [ req.params.id ] )
@@ -19,7 +29,7 @@ export const createCategory = async (req, res) => {
         const { name_category, tittle_category, description_category, img_category, date_create, date_update } = req.body;
 
         const result = await db.query(
-          "INSERT INTO category_solution (name_category, tittle_category, description_category, img_category, id_solution, date_create,     date_update) VALUES (?, ?, ?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
+          "INSERT INTO category_solution (name_category, tittle_category, description_category, img_category, id_solution, date_create,    date_update) VALUES (?, ?, ?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
           [ name_category, tittle_category, description_category, img_category, id_solution, date_create, date_update ]
         );
 
@@ -54,17 +64,16 @@ export const createCategory = async (req, res) => {
     }
   };
 
-  export const updateSolution = async (req, res) => {
+  export const updateCategory = async (req, res) => {
     try {
       const { id } = req.params;
       const { name_solution, tittle_solution, description_solution } = req.body;
       const result = await db.query(
-        "UPDATE category_solution SET name_solution = IFNULL(?, name_solution), tittle_solution = IFNULL(?, tittle_solution), description_solution = IFNULL(?, description_solution), date_update = UNIX_TIMESTAMP() WHERE solution_id = ?",
+        "UPDATE category_solution SET name_category = IFNULL(?, name_category), tittle_category = IFNULL(?, tittle_category), description_category = IFNULL(?, description_category), img_category = IFNULL(?, img_category), id_solution = IFNULL(?, id_solution) date_update = UNIX_TIMESTAMP() WHERE solution_id = ?",
         [name_solution, tittle_solution, description_solution, id]
       );
       const [rows] = await db.query(
-        "SELECT * FROM category_solution WHERE solution_id = ?",
-        [id]
+        "SELECT * FROM category_solution WHERE id_category = ?", [id]
       );
   
       res.json(rows[0]);
