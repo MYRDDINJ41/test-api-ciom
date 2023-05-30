@@ -13,15 +13,30 @@ export const getCategoryId = async (req, res) => {
   try {
     const id = [req.params.id];
     const [rows] = await db.query(
-      "SELECT * FROM category_solution WHERE id_category = ?",
-      [id]
-    );
-    res.json(rows[0]);
+      "SELECT * FROM category_solution WHERE id_category = ?", [id]
+    )
+    res.json(rows);
+
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
+export const getCategoriesByIdSolution = async (req, res) => {
+  try{
+    const [result] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?", [req.params.id])
+    if (result.length > 0){
+      const idSolution = [req.params.id]
+      const [rows] = await db.query("SELECT * FROM category_solution WHERE id_solution = ? ", [idSolution]);
+      res.json(rows);
+    }else{
+      return res.send({ message: "Solution not found" });
+    }
+    
+  }catch (error) { 
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
 export const createCategory = async (req, res) => {
   try {
     const [rows] = await db.query(
