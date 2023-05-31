@@ -37,6 +37,7 @@ export const getCategoriesByIdSolution = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
+
 export const createCategory = async (req, res) => {
   try {
     const [rows] = await db.query(
