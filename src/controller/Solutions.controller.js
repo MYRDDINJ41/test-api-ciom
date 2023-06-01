@@ -59,10 +59,10 @@ export const deleteSolution = async (req, res) => {
 export const updateSolution = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name_solution, tittle_solution, description_solution } = req.body;
+    const { name_solution, tittle_solution, img_solution, description_solution } = req.body;
     const result = await db.query(
-      "UPDATE solution_ciom SET name_solution = IFNULL(?, name_solution), tittle_solution = IFNULL(?, tittle_solution), description_solution = IFNULL(?, description_solution), date_update = UNIX_TIMESTAMP() WHERE id_solution = ?",
-      [name_solution, tittle_solution, description_solution, id]
+      "UPDATE solution_ciom SET name_solution = IFNULL(?, name_solution), tittle_solution = IFNULL(?, tittle_solution), img_solution = IFNULL(?, img_solution), description_solution = IFNULL(?, description_solution), date_update = UNIX_TIMESTAMP() WHERE id_solution = ?",
+      [name_solution, tittle_solution, img_solution, description_solution, id]
     );
     const [rows] = await db.query(
       "SELECT * FROM solution_ciom WHERE id_solution = ?",
