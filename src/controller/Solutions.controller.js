@@ -1,4 +1,5 @@
 import { db } from "../model/Storage.js";
+import multer from "multer";
 
 export const getSolutions = async (req, res) => {
   try {
@@ -12,13 +13,16 @@ export const getSolutions = async (req, res) => {
 
 export const getSolutionId = async (req, res) => {
   try {
-    const id_solution = [req.params.id]
-    const [row] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?", id_solution);
+    const id_solution = [req.params.id];
+    const [row] = await db.query(
+      "SELECT * FROM solution_ciom WHERE id_solution = ?",
+      id_solution
+    );
     res.json(row[0]);
   } catch (error) {
-    return res.status(500).json({error: error.message});
+    return res.status(500).json({ error: error.message });
   }
-}
+};
 
 export const createSolution = async (req, res) => {
   try {
@@ -59,7 +63,12 @@ export const deleteSolution = async (req, res) => {
 export const updateSolution = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name_solution, tittle_solution, img_solution, description_solution } = req.body;
+    const {
+      name_solution,
+      tittle_solution,
+      img_solution,
+      description_solution,
+    } = req.body;
     const result = await db.query(
       "UPDATE solution_ciom SET name_solution = IFNULL(?, name_solution), tittle_solution = IFNULL(?, tittle_solution), img_solution = IFNULL(?, img_solution), description_solution = IFNULL(?, description_solution), date_update = UNIX_TIMESTAMP() WHERE id_solution = ?",
       [name_solution, tittle_solution, img_solution, description_solution, id]
@@ -78,3 +87,29 @@ export const updateSolution = async (req, res) => {
   }
 };
 
+
+export const uploadImage = async (req, res) => {
+  try {
+
+    const imgUrl = "resources/images/" + req.file.filename
+
+    console.log(imgUrl);
+    console.log(req.file);
+    //res.send("uploadIMG");
+
+    const result = await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
+
+    //res.sendFile(result);
+
+    const [rows] = await db.query(
+      "SELECT * FROM solution_ciom WHERE id_solution = ?",
+      [req.params.id]
+    );
+
+    res.json(rows[0]);
+    
+
+  } catch (error) {
+    res.status(500).send(error.message || error);
+  }
+};
