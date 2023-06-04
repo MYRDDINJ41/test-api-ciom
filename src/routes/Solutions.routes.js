@@ -4,7 +4,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "resources/Images")
+    cb(null, "resources/images")
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
@@ -19,6 +19,7 @@ router
   .get("/solution/:id", getSolutionId)
 
   .post("/create-solutions", createSolution)
+  
   .patch("/upload-img/:id", upload.single("imagen"), uploadImage)
 
   .delete("/delete-solution/:id", deleteSolution)
