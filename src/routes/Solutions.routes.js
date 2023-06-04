@@ -15,7 +15,6 @@ const upload = multer({storage: storage});
 const router = Router();
 
 router
-  
   .get("/solutions", getSolutions)
   .get("/solution/:id", getSolutionId)
 

@@ -12,7 +12,7 @@ app
   .use(cors())
   .use(express.json())
   // .use(express.static(path.join('resources')))
-  //.use("/resources", express.static('/resources'))
+  .use("/resources", express.static('/resources'))
   .use("/api", solutionsRoutes)
   .use("/api", categoriesRoutes)
   .use("/api", storagesRoutes)
