@@ -97,9 +97,9 @@ export const uploadImage = async (req, res) => {
     console.log(req.file);
     //res.send("uploadIMG");
 
-    const result = await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
+    await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
 
-    res.send(result);
+    //res.send(result);
 
     const [rows] = await db.query(
       "SELECT * FROM solution_ciom WHERE id_solution = ?",
