@@ -17,8 +17,6 @@ app
   .use("/api", categoriesRoutes)
   .use("/api", storagesRoutes)
 
-  
-
   .use((req, res, next) => {
      res.status(404).json({ message: "Enpoint Not found" });
   });

@@ -19,7 +19,7 @@ router
   .get("/solution/:id", getSolutionId)
 
   .post("/create-solutions", createSolution)
-  .post("/upload-img/:id", upload.single("imagen"), uploadImage)
+  .patch("/upload-img/:id", upload.single("imagen"), uploadImage)
 
   .delete("/delete-solution/:id", deleteSolution)
   .patch("/update-solution/:id", updateSolution);
