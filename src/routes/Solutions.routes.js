@@ -4,7 +4,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "resources/images")
+    cb(null, "resources/Images")
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
@@ -23,5 +23,6 @@ router
 
   .delete("/delete-solution/:id", deleteSolution)
   .patch("/update-solution/:id", updateSolution);
+
 
 export default router;
