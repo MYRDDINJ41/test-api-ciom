@@ -3,7 +3,6 @@ import solutionsRoutes from "./routes/Solutions.routes.js";
 import categoriesRoutes from "./routes/Categories.routes.js";
 import storagesRoutes from "./routes/Storage.routes.js";
 import cors from "cors";
-import path from 'path';
 
 const app = express();
 
@@ -13,6 +12,7 @@ app
   .use(express.json())
   // .use(express.static(path.join('resources')))
   .use("/resources", express.static('/resources'))
+  
   .use("/api", solutionsRoutes)
   .use("/api", categoriesRoutes)
   .use("/api", storagesRoutes)

@@ -93,8 +93,8 @@ export const uploadImage = async (req, res) => {
 
     const imgUrl = "resources/images/" + req.file.filename
 
-    console.log(imgUrl);
-    console.log(req.file);
+    //console.log(imgUrl);
+    //console.log(req.file);
     //res.send("uploadIMG");
 
     await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
