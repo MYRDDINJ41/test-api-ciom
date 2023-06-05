@@ -97,14 +97,12 @@ export const uploadImage = async (req, res) => {
     //console.log(req.file);
     //res.send("uploadIMG");
 
-    await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
+    const result = await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
 
+    console.log(result);
     //res.send(result);
 
-    const [rows] = await db.query(
-      "SELECT * FROM solution_ciom WHERE id_solution = ?",
-      [req.params.id]
-    );
+    const [rows] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?",[req.params.id]);
 
     res.json(rows[0]);
     
