@@ -102,6 +102,8 @@ export const uploadImage = async (req, res) => {
     console.log(result);
     //res.send(result);
 
+    
+
     const [rows] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?",[req.params.id]);
 
     res.json(rows[0]);
