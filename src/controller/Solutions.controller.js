@@ -1,6 +1,9 @@
 import { db } from "../model/Storage.js";
 import multer from "multer";
 
+import { ref, uploadBytes, listAll, deleteObject } from "firebase/storage";
+import storage from "../model/firebase.config.js";
+
 export const getSolutions = async (req, res) => {
   try {
     //throw new Error('Demo Error');
@@ -87,29 +90,38 @@ export const updateSolution = async (req, res) => {
   }
 };
 
+// export const uploadImage = async (req, res) => {
+//   try {
+
+//     const imgUrl = "resources/images/" + req.file.filename
+
+//     //console.log(imgUrl);
+//     //console.log(req.file);
+//     //res.send("uploadIMG");
+
+//     const result = await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
+
+//     console.log(result);
+//     console.log(req.file)
+//     //res.send(result);
+
+//     const [rows] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?",[req.params.id]);
+
+//     res.json(rows[0]);
+
+//   } catch (error) {
+//     res.status(500).json(error.message);
+//   }
+// };
 
 export const uploadImage = async (req, res) => {
-  try {
-
-    const imgUrl = "resources/images/" + req.file.filename
-
-    //console.log(imgUrl);
-    //console.log(req.file);
-    //res.send("uploadIMG");
-
-    const result = await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
-
-    console.log(result);
-    console.log(req.file)
-    //res.send(result);
-
-
-
-    const [rows] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?",[req.params.id]);
-
-    res.json(rows[0]);
-    
-  } catch (error) {
-    res.status(500).json(error.message);
-  }
+  const file = req.file;
+  const imgRef = ref(storage, file.originalname);
+  const metatype = { contentType: file.mimetype, name: file.originalname };
+  await uploadBytes(imgRef, file.buffer, metatype)
+    //console.log(file, imgRef, metatype)
+    .then((snapshot) => {
+      res.send("upload");
+    })
+    .catch((error) => console.log(error.message));
 };
