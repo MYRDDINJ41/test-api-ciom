@@ -5,7 +5,8 @@ import {
   deleteSolution,
   updateSolution,
   getSolutionId,
-  uploadImage
+  uploadImage, 
+  getAllImg
 } from "../controller/Solutions.controller.js";
 import multer from "multer";
 
@@ -26,12 +27,13 @@ const upload = multer({ memoSotorage });
 router
   .get("/solutions", getSolutions)
   .get("/solution/:id", getSolutionId)
+  .get("/getImgs", getAllImg)
 
   .post("/create-solutions", createSolution)
 
-  .patch("/upload-img/:id", upload.single("imagen"), uploadImage)
+  //.patch("/upload-img/:id", upload.single("imagen"), uploadImage)
 
-  .post("/upload-img", upload.single("imagen"), uploadImage2)
+  .post("/upload-img", upload.single("imagen"), uploadImage)
 
   .delete("/delete-solution/:id", deleteSolution)
   .patch("/update-solution/:id", updateSolution);

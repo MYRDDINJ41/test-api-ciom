@@ -118,6 +118,7 @@ export const uploadImage = async (req, res) => {
   const file = req.file;
   const imgRef = ref(storage, file.originalname);
   const metatype = { contentType: file.mimetype, name: file.originalname };
+  
   await uploadBytes(imgRef, file.buffer, metatype)
     //console.log(file, imgRef, metatype)
     .then((snapshot) => {
@@ -125,3 +126,21 @@ export const uploadImage = async (req, res) => {
     })
     .catch((error) => console.log(error.message));
 };
+
+
+export const getAllImg =  async (req, res) => {
+  const listRef = ref(storage);
+  let productPictures = [];
+  await listAll(listRef)
+    .then((pics) => {
+      productPictures = pics.items.map((item) => {
+        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item._location.bucket}/o/${item._location.path_}?alt=media`;
+        return {
+          url: publicUrl,
+          name: item._location.path_,
+        };
+      });
+      res.send(productPictures);
+    })
+    .catch((error) => console.log(error.message));
+}
