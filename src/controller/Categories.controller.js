@@ -45,27 +45,23 @@ export const createCategory = async (req, res) => {
       [req.params.id]
     );
     if (rows.length > 0) {
-      const id_solution = req.params.id;
+      const id_s = req.params.id;
 
       const {
-        name_category,
-        tittle_category,
-        description_category,
-        img_category,
-        date_create,
-        date_update,
+        name_c,
+        tittle_c,
+        description_c,
+        img_c,
       } = req.body;
 
       const result = await db.query(
-        "INSERT INTO category_solution (name_category, tittle_category, description_category, img_category, id_solution, date_create,    date_update) VALUES (?, ?, ?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
+        "INSERT INTO category_solution (name_c, tittle_c, description_c, img_c, id_s, date_create, date_update) VALUES (?, ?, ?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
         [
-          name_category,
-          tittle_category,
-          description_category,
-          img_category,
-          id_solution,
-          date_create,
-          date_update,
+          name_c,
+          tittle_c,
+          description_c,
+          img_c,
+          id_s
         ]
       );
 

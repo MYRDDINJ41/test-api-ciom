@@ -8,7 +8,7 @@ router
     .get("/category/:id", getCategoryId)
     //id de la solution
     .get("/categoriesBySolution/:id", getCategoriesByIdSolution)
-    .post("/categories/:id", createCategory)
+    .post("/create-category/:id", createCategory)
     .delete("/delete-category/:id", deleteCategory)
     .patch("/update-category/:id", updateCategory)
 
