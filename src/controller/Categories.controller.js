@@ -41,12 +41,10 @@ export const getCategoriesByIdSolution = async (req, res) => {
 export const createCategory = async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT * FROM solution_ciom WHERE id_solution = ?",
-      [req.params.id]
+      "SELECT * FROM solution_ciom WHERE id_s = ?", [req.params.id]
     );
     if (rows.length > 0) {
       const id_s = req.params.id;
-
       const {
         name_c,
         tittle_c,
