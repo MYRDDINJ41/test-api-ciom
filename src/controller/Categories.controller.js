@@ -106,7 +106,7 @@ export const updateCategory = async (req, res) => {
       active_NoActive
     } = req.body;
     const result = await db.query(
-      "UPDATE category_solution SET name_c = IFNULL(?, name_c), tittle_c = IFNULL(?, tittle_c), description_c = IFNULL(?, description_c), img_c = IFNULL(?, img_c), id_s = IFNULL(?, id_s), active_NoActive = IFNULL(?, active_NoActive) date_update = UNIX_TIMESTAMP() WHERE id = ?",
+      "UPDATE category_solution SET name_c = IFNULL(?, name_c), tittle_c = IFNULL(?, tittle_c), description_c = IFNULL(?, description_c), img_c = IFNULL(?, img_c), id_s = IFNULL(?, id_s), active_NoActive = IFNULL(?, active_NoActive), date_update = UNIX_TIMESTAMP() WHERE id = ?",
       [name_c, tittle_c, description_c, img_c, id_s, active_NoActive, id]
     );
     const [rows] = await db.query(
