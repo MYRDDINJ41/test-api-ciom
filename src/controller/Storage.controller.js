@@ -83,14 +83,13 @@ export const deleteStorage = async (req, res) => {
 
 export const updateStorage = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id_sc = res.params;
     const {
       name_sc,
       tittle_sc,
       description_sc,
       vid_sc,
-      active_NoActive,
-      id_c,
+      active_NoActive
     } = req.body;
     const result = await db.query(
       "UPDATE storage_category SET name_sc = IFNULL(?, name_sc), tittle_sc = IFNULL(?, tittle_sc), description_sc = IFNULL(?, description_sc), vid_sc = IFNULL(?, vid_sc), id_c = IFNULL(?, id_c), active_NoActive = IFNULL(?, active_NoActive), date_update = UNIX_TIMESTAMP() WHERE id = ?",
@@ -99,11 +98,11 @@ export const updateStorage = async (req, res) => {
         description_sc,
         vid_sc,
         active_NoActive,
-        id_c,]
+        id_sc,]
     );
     const [rows] = await db.query(
       "SELECT * FROM storage_category WHERE id = ?",
-      [id]
+      [id_sc]
     );
 
     res.json(rows[0]);
