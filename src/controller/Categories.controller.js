@@ -53,7 +53,7 @@ export const createCategory = async (req, res) => {
       } = req.body;
 
       const result = await db.query(
-        "INSERT INTO category_solution (name_c, tittle_c, description_c, img_c, id_s, date_create, date_update) VALUES (?, ?, ?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
+        "INSERT INTO category_solution (name_c, tittle_c, description_c, img_c, activate_NoActive, id_s, date_create, date_update) VALUES (?, ?, ?, ?, 0, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
         [
           name_c,
           tittle_c,
@@ -98,17 +98,18 @@ export const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      name_category,
-      tittle_category,
-      description_category,
-      img_category,
+      name_c,
+      tittle_c,
+      description_c,
+      img_c,
+      active_NoActive
     } = req.body;
     const result = await db.query(
-      "UPDATE category_solution SET name_category = IFNULL(?, name_category), tittle_category = IFNULL(?, tittle_category), description_category = IFNULL(?, description_category), img_category = IFNULL(?, img_category), date_update = UNIX_TIMESTAMP() WHERE id_category = ?",
-      [name_category, tittle_category, description_category, img_category, id]
+      "UPDATE category_solution SET name_c = IFNULL(?, name_c), tittle_c = IFNULL(?, tittle_c), description_c = IFNULL(?, description_c), img_c = IFNULL(?, img_c), active_NoActive = IFNULL(?, active_NoActive) date_update = UNIX_TIMESTAMP() WHERE id = ?",
+      [name_c, tittle_c, description_c, img_c, active_NoActive, id]
     );
     const [rows] = await db.query(
-      "SELECT * FROM category_solution WHERE id_category = ?",
+      "SELECT * FROM category_solution WHERE id = ?",
       [id]
     );
 
