@@ -51,7 +51,8 @@ export const createStorage = async (req, res) => {
       [id]
     );
     if (rows.length > 0) {
-      const { name_sc, tittle_sc, description_sc, vid_sc,id } = req.body;
+      const id = req.params;
+      const { name_sc, tittle_sc, description_sc, vid_sc } = req.body;
       const result = await db.query(
         "INSERT INTO storage_category (name_sc, tittle_sc, description_sc, vid_sc, active_NoActive, id_c, date_create, date_update) VALUES (?, ?, ?, ?, 0, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
         [name_sc, tittle_sc, description_sc, vid_sc, id]
@@ -63,6 +64,8 @@ export const createStorage = async (req, res) => {
     return res.send({ error: error });
   }
 };
+
+
 export const deleteStorage = async (req, res) => {
   try {
     const result = await db.query(
