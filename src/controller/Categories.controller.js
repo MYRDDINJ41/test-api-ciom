@@ -53,7 +53,7 @@ export const createCategory = async (req, res) => {
       } = req.body;
 
       const result = await db.query(
-        "INSERT INTO category_solution (name_c, tittle_c, description_c, img_c, activate_NoActive, id_s, date_create, date_update) VALUES (?, ?, ?, ?, 0, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
+        "INSERT INTO category_solution (name_c, tittle_c, description_c, img_c, active_NoActive, id_s, date_create, date_update) VALUES (?, ?, ?, ?, 0, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
         [
           name_c,
           tittle_c,
