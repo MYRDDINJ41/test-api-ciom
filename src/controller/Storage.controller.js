@@ -89,19 +89,21 @@ export const updateStorage = async (req, res) => {
       tittle_sc,
       description_sc,
       vid_sc,
+      id_c,
       active_NoActive
     } = req.body;
     const result = await db.query(
-      "UPDATE storage_category SET name_sc = IFNULL(?, name_sc), tittle_sc = IFNULL(?, tittle_sc), description_sc = IFNULL(?, description_sc), vid_sc = IFNULL(?, vid_sc), id_c = IFNULL(?, id_c), active_NoActive = IFNULL(?, active_NoActive), date_update = UNIX_TIMESTAMP() WHERE id = ?",
+      "UPDATE storage_category SET name_sc = IFNULL(?, name_sc), tittle_sc = IFNULL(?, tittle_sc), description_sc = IFNULL(?, description_sc), vid_sc = IFNULL(?, vid_sc), id_c = IFNULL(?, id_c), active_NoActive = IFNULL(?, active_NoActive), date_update = UNIX_TIMESTAMP() WHERE id_sc = ?",
       [name_sc,
         tittle_sc,
         description_sc,
         vid_sc,
+        id_c,
         active_NoActive,
-        id_sc,]
+        id_sc]
     );
     const [rows] = await db.query(
-      "SELECT * FROM storage_category WHERE id = ?",
+      "SELECT * FROM storage_category WHERE id_sc = ?",
       [id_sc]
     );
 
