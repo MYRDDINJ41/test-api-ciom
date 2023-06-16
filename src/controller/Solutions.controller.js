@@ -1,9 +1,8 @@
+//Imports
+//Import for connection to DB --------------------------------
 import { db } from "../model/Storage.js";
-import multer from "multer";
 
-import { ref, uploadBytes, listAll, deleteObject } from "firebase/storage";
-import storage from "../model/firebase.config.js";
-
+// We GET all Solutions from DB Table solution_ciom
 export const getSolutions = async (req, res) => {
   try {
     //throw new Error('Demo Error');
@@ -14,6 +13,7 @@ export const getSolutions = async (req, res) => {
   }
 };
 
+// We GET Solution by id from DB Table solution_ciom
 export const getSolutionId = async (req, res) => {
   try {
     const id_solution = [req.params.id];
@@ -27,12 +27,16 @@ export const getSolutionId = async (req, res) => {
   }
 };
 
+// We can create one Solution for DB Table solution_ciom
 export const createSolution = async (req, res) => {
+  
+  const { name_s, tittle_s, img_s, img_banner_s, description_s } = req.body;
+
   try {
-    const { name_solution, tittle_solution, description_solution } = req.body;
+    
     const result = await db.query(
-      "INSERT INTO solution_ciom (name_solution, tittle_solution, description_solution, date_create, date_update) VALUES (?, ?, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
-      [name_solution, tittle_solution, description_solution]
+      "INSERT INTO solution_ciom (name_s, tittle_s, img_s, img_banner_s, description_s, active_NoActive, date_create, date_update) VALUES (?, ?, ?, ?, ?, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
+      [name_s, tittle_s, img_s, img_banner_s, description_s]
     );
 
     const affectedRows = result[0].affectedRows;
@@ -67,17 +71,17 @@ export const updateSolution = async (req, res) => {
   try {
     const { id } = req.params;
     const {
-      name_solution,
-      tittle_solution,
-      img_solution,
-      description_solution,
+      name_s,
+      tittle_s,
+      img_s,
+      description_s,
     } = req.body;
     const result = await db.query(
-      "UPDATE solution_ciom SET name_solution = IFNULL(?, name_solution), tittle_solution = IFNULL(?, tittle_solution), img_solution = IFNULL(?, img_solution), description_solution = IFNULL(?, description_solution), date_update = UNIX_TIMESTAMP() WHERE id_solution = ?",
-      [name_solution, tittle_solution, img_solution, description_solution, id]
+      "UPDATE solution_ciom SET name_s = IFNULL(?, name_s), tittle_s = IFNULL(?, tittle_s), img_s = IFNULL(?, img_s), description_s = IFNULL(?, description_s), date_update = UNIX_TIMESTAMP() WHERE id = ?",
+      [name_s, tittle_s, img_s, description_s, id]
     );
     const [rows] = await db.query(
-      "SELECT * FROM solution_ciom WHERE id_solution = ?",
+      "SELECT * FROM solution_ciom WHERE id = ?",
       [id]
     );
 
@@ -89,58 +93,3 @@ export const updateSolution = async (req, res) => {
     return res.status(500).send(error.message || error);
   }
 };
-
-// export const uploadImage = async (req, res) => {
-//   try {
-
-//     const imgUrl = "resources/images/" + req.file.filename
-
-//     //console.log(imgUrl);
-//     //console.log(req.file);
-//     //res.send("uploadIMG");
-
-//     const result = await db.query("UPDATE solution_ciom SET img_solution = IFNULL(?, img_solution) WHERE id_solution = ?", [imgUrl, req.params.id]);
-
-//     console.log(result);
-//     console.log(req.file)
-//     //res.send(result);
-
-//     const [rows] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?",[req.params.id]);
-
-//     res.json(rows[0]);
-
-//   } catch (error) {
-//     res.status(500).json(error.message);
-//   }
-// };
-
-export const uploadImage = async (req, res) => {
-  const file = req.file;
-  const imgRef = ref(storage, file.originalname);
-  const metatype = { contentType: file.mimetype, name: file.originalname };
-  
-  await uploadBytes(imgRef, file.buffer, metatype)
-    //console.log(file, imgRef, metatype)
-    .then((snapshot) => {
-      res.send("upload");
-    })
-    .catch((error) => console.log(error.message));
-};
-
-
-export const getAllImg =  async (req, res) => {
-  const listRef = ref(storage);
-  let productPictures = [];
-  await listAll(listRef)
-    .then((pics) => {
-      productPictures = pics.items.map((item) => {
-        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${item._location.bucket}/o/${item._location.path_}?alt=media`;
-        return {
-          url: publicUrl,
-          name: item._location.path_,
-        };
-      });
-      res.send(productPictures);
-    })
-    .catch((error) => console.log(error.message));
-}
