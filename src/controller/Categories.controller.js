@@ -13,7 +13,7 @@ export const getCategoryId = async (req, res) => {
   try {
     const id = [req.params.id];
     const [rows] = await db.query(
-      "SELECT * FROM category_solution WHERE id_category = ?", [id]
+      "SELECT * FROM category_solution WHERE id = ?", [id]
     )
     res.json(rows);
 
@@ -24,10 +24,10 @@ export const getCategoryId = async (req, res) => {
 
 export const getCategoriesByIdSolution = async (req, res) => {
   try{
-    const [result] = await db.query("SELECT * FROM solution_ciom WHERE id_solution = ?", [req.params.id])
+    const [result] = await db.query("SELECT * FROM solution_ciom WHERE id = ?", [req.params.id])
     if (result.length > 0){
       const idSolution = [req.params.id]
-      const [rows] = await db.query("SELECT * FROM category_solution WHERE id_solution = ? ", [idSolution]);
+      const [rows] = await db.query("SELECT * FROM category_solution WHERE id_s = ? ", [idSolution]);
       res.json(rows);
     }else{
       return res.send({ message: "Solution not found" });
@@ -77,7 +77,7 @@ export const deleteCategory = async (req, res) => {
   try {
     const solution_id = req.params.id;
     const result = await db.query(
-      "DELETE FROM category_solution WHERE id_category = ?",
+      "DELETE FROM category_solution WHERE id = ?",
       [solution_id]
     );
 

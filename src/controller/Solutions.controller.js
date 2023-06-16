@@ -18,7 +18,7 @@ export const getSolutionId = async (req, res) => {
   try {
     const id_solution = [req.params.id];
     const [row] = await db.query(
-      "SELECT * FROM solution_ciom WHERE id_solution = ?",
+      "SELECT * FROM solution_ciom WHERE id_s = ?",
       id_solution
     );
     res.json(row[0]);
@@ -50,7 +50,7 @@ export const deleteSolution = async (req, res) => {
   try {
     const solution_id = req.params.id;
     const result = await db.query(
-      "DELETE FROM solution_ciom WHERE id_solution = ?",
+      "DELETE FROM solution_ciom WHERE id = ?",
       [solution_id]
     );
 

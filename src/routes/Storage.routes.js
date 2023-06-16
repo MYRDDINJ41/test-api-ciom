@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getStorage, getStorageById, createStorage, deleteStorage, updateStorage, getStorageByCategoryId} from "../controller/Storage.controller.js"
-
+  
 const router = Router();
 
 router
