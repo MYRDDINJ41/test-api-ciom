@@ -65,7 +65,6 @@ export const createStorage = async (req, res) => {
   }
 };
 
-
 export const deleteStorage = async (req, res) => {
   try {
     const result = await db.query(
@@ -81,4 +80,37 @@ export const deleteStorage = async (req, res) => {
       .json({ message: "Something went wrong" + error.message });
   }
 };
-export const updateStorage = async (req, res) => {};
+
+export const updateStorage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      name_sc,
+      tittle_sc,
+      description_sc,
+      vid_sc,
+      active_NoActive,
+      id_c,
+    } = req.body;
+    const result = await db.query(
+      "UPDATE category_solution SET name_sc = IFNULL(?, name_sc), tittle_sc = IFNULL(?, tittle_sc), description_sc = IFNULL(?, description_sc), vid_sc = IFNULL(?, vid_sc), id_c = IFNULL(?, id_c), active_NoActive = IFNULL(?, active_NoActive), date_update = UNIX_TIMESTAMP() WHERE id = ?",
+      [name_sc,
+        tittle_sc,
+        description_sc,
+        vid_sc,
+        active_NoActive,
+        id_c,]
+    );
+    const [rows] = await db.query(
+      "SELECT * FROM category_solution WHERE id = ?",
+      [id]
+    );
+
+    res.json(rows[0]);
+
+    if (result.affectedRows === 0)
+      return res.status(404).json({ message: "Solution no Found" });
+  } catch (error) {
+    return res.status(500).send(error.message || error);
+  }
+};

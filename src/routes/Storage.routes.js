@@ -9,6 +9,6 @@ router
     .get("/storagesByCategory/:id", getStorageByCategoryId)
     .post("/create-storage/:id", createStorage)
     .delete("/delete-storage/:id", deleteStorage)
-    .patch("/update-storage-category/:id", updateStorage)
+    .patch("/update-storage/:id", updateStorage)
 
 export default router; 
