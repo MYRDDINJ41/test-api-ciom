@@ -47,7 +47,7 @@ export const createStorage = async (req, res) => {
   try {
     const id = req.params;
     const [rows] = await db.query(
-      "SELECT * FROM storage_category WHERE id_sc = ? ",
+      "SELECT * FROM category_solution WHERE id = ? ",
       [id]
     );
     if (rows.length > 0) {
