@@ -1,5 +1,4 @@
-//Imports
-//Import for connection to DB --------------------------------
+//Import for config to DB
 import { db } from "../model/Storage.js";
 
 // We GET all Solutions from DB Table solution_ciom
@@ -16,10 +15,9 @@ export const getSolutions = async (req, res) => {
 // We GET Solution by id from DB Table solution_ciom
 export const getSolutionId = async (req, res) => {
   try {
-    const id_solution = [req.params.id];
+    const id = req.params.id;
     const [row] = await db.query(
-      "SELECT * FROM solution_ciom WHERE id_s = ?",
-      id_solution
+      "SELECT * FROM solution_ciom WHERE id = ?", id
     );
     res.json(row[0]);
   } catch (error) {
