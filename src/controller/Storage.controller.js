@@ -13,7 +13,7 @@ export const getStorageById = async (req, res) => {
   try {
     const id = req.params.id;
     const [rows] = await db.query(
-      "SELECT * FROM storage_category WHERE id_sc = ?",
+      "SELECT * FROM storage_category WHERE id = ?",
       [id]
     );
     res.json(rows[0]);
@@ -45,17 +45,16 @@ export const getStorageByCategoryId = async (req, res) => {
 
 export const createStorage = async (req, res) => {
   try {
-    const id = req.params;
+    const id_category = req.params.id;
     const [rows] = await db.query(
       "SELECT * FROM category_solution WHERE id = ? ",
-      [id]
+      [id_category]
     );
     if (rows.length > 0) {
-      const id = req.params;
       const { name_sc, tittle_sc, description_sc, vid_sc } = req.body;
       const result = await db.query(
         "INSERT INTO storage_category (name_sc, tittle_sc, description_sc, vid_sc, active_NoActive, id_c, date_create, date_update) VALUES (?, ?, ?, ?, 0, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
-        [name_sc, tittle_sc, description_sc, vid_sc, id]
+        [name_sc, tittle_sc, description_sc, vid_sc, id_category]
       );
       const affectedRows = result[0].affectedRows;
       res.send({ affectedRows });
@@ -68,7 +67,7 @@ export const createStorage = async (req, res) => {
 export const deleteStorage = async (req, res) => {
   try {
     const result = await db.query(
-      "DELETE FROM storage_category WHERE id_sc = ?",
+      "DELETE FROM storage_category WHERE id = ?",
       [req.params.id]
     );
     if (result.affectedRows <= 0)
@@ -93,7 +92,7 @@ export const updateStorage = async (req, res) => {
       id_c
     } = req.body;
     const result = await db.query(
-      "UPDATE storage_category SET name_sc = IFNULL(?, name_sc), tittle_sc = IFNULL(?, tittle_sc), description_sc = IFNULL(?, description_sc), vid_sc = IFNULL(?, vid_sc), active_NoActive = IFNULL(?, active_NoActive), id_c = IFNULL(?, id_c), date_update = UNIX_TIMESTAMP() WHERE id_sc = ?",
+      "UPDATE storage_category SET name_sc = IFNULL(?, name_sc), tittle_sc = IFNULL(?, tittle_sc), description_sc = IFNULL(?, description_sc), vid_sc = IFNULL(?, vid_sc), active_NoActive = IFNULL(?, active_NoActive), id_c = IFNULL(?, id_c), date_update = UNIX_TIMESTAMP() WHERE id = ?",
       [name_sc,
         tittle_sc,
         description_sc,
@@ -103,7 +102,7 @@ export const updateStorage = async (req, res) => {
         id_sc]
     );
     const [rows] = await db.query(
-      "SELECT * FROM storage_category WHERE id_sc = ?",
+      "SELECT * FROM storage_category WHERE id = ?",
       [id_sc]
     );
 

@@ -15,15 +15,15 @@ export const uploadImage = async (req, res) => {
   };
   
   export const getAllImg = async (req, res) => {
-    const imgsRef = ref(storage, 'img');
+    const imgsRef = ref(storage, 'img/Solutions');
     try {
       const respuesta = await listAll(imgsRef);
-      const urls = [];
+      const data = [];
       for (let item of respuesta.items){
         const url = await getDownloadURL(item);
-        urls.push({url: url, name: item._location.path_});
+        url.push({url: url, name: item._location.path_});
       }
-      res.json(urls);
+      res.json(data);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: message });
