@@ -29,8 +29,16 @@ export const getSolutionId = async (req, res) => {
 
 // We can create one Solution for DB Table solution_ciom
 export const createSolution = async (req, res) => {
+  const img = req.file;
+  const imgRef = ref(storage, `img/${img.originalname}`);
+  const metatype = file.originalname
   const {tittle_s, img_s, img_banner_s, description_s } = req.body;
   try {
+    await uploadBytes(imgRef, file.buffer, metatype)
+      .then((snapshot) => {
+        res.send("uploaded");
+      })
+      .catch((error) => console.log(error.message));
     const result = await db.query(
       "INSERT INTO solution_ciom (tittle_s, img_s, img_banner_s, description_s, active_NoActive, date_create, date_update) VALUES (?, ?, ?, ?, ?, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
       [name_s, tittle_s, img_s, img_banner_s, description_s]
