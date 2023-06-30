@@ -6,6 +6,7 @@ import solutionsRoutes from "./routes/Solutions.routes.js";
 import categoriesRoutes from "./routes/Categories.routes.js";
 import storagesRoutes from "./routes/Storage.routes.js";
 import mediaStorageRoutes from "./routes/MediaStorage.routes.js";
+import userRoutes from "./routes/Users.routes.js"
 
 const app = express();
 
@@ -20,6 +21,7 @@ app
   .use("/api", categoriesRoutes)
   .use("/api", storagesRoutes)
   .use("/api", mediaStorageRoutes)
+  .use("/api", userRoutes)
 
   // This funtions help us to know when there are no Endpoint found in the routes
   .use((req, res, next) => {
