@@ -45,21 +45,12 @@ export const createCategory = async (req, res) => {
     );
     if (rows.length > 0) {
       const id_s = req.params.id;
-      const {
-        name_c,
-        tittle_c,
-        description_c,
-        img_c,
+      const {tittle_c, description_c, img_c,
       } = req.body;
 
       const result = await db.query(
-        "INSERT INTO category_solution (name_c, tittle_c, description_c, img_c, active_NoActive, id_s, date_create, date_update) VALUES (?, ?, ?, ?, 0, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
-        [
-          name_c,
-          tittle_c,
-          description_c,
-          img_c,
-          id_s
+        "INSERT INTO category_solution (tittle_c, description_c, img_c, active_NoActive, id_s, date_create, date_update) VALUES (?, ?, ?, ?, 0, ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
+        [tittle_c, description_c, img_c, id_s
         ]
       );
 
@@ -75,10 +66,10 @@ export const createCategory = async (req, res) => {
 
 export const deleteCategory = async (req, res) => {
   try {
-    const solution_id = req.params.id;
+    const id_c = req.params.id;
     const result = await db.query(
       "DELETE FROM category_solution WHERE id = ?",
-      [solution_id]
+      [id_c]
     );
 
     if (result.affectedRows <= 0)
@@ -97,17 +88,11 @@ export const deleteCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const {
-      name_c,
-      tittle_c,
-      description_c,
-      img_c,
-      id_s,
-      active_NoActive
+    const {tittle_c, description_c, img_c, id_s, active_NoActive
     } = req.body;
     const result = await db.query(
-      "UPDATE category_solution SET name_c = IFNULL(?, name_c), tittle_c = IFNULL(?, tittle_c), description_c = IFNULL(?, description_c), img_c = IFNULL(?, img_c), id_s = IFNULL(?, id_s), active_NoActive = IFNULL(?, active_NoActive), date_update = UNIX_TIMESTAMP() WHERE id = ?",
-      [name_c, tittle_c, description_c, img_c, id_s, active_NoActive, id]
+      "UPDATE category_solution SET tittle_c = IFNULL(?, tittle_c), description_c = IFNULL(?, description_c), img_c = IFNULL(?, img_c), id_s = IFNULL(?, id_s), active_NoActive = IFNULL(?, active_NoActive), date_update = UNIX_TIMESTAMP() WHERE id = ?",
+      [tittle_c, description_c, img_c, id_s, active_NoActive, id]
     );
     const [rows] = await db.query(
       "SELECT * FROM category_solution WHERE id = ?",

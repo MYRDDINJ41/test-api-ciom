@@ -7,7 +7,7 @@ router
     .get("/storages", getStorage)
     .get("/storage/:id", getStorageById)
     .get("/storagesByCategory/:id", getStorageByCategoryId)
-    .post("/create-storage/:id", createStorage)
+    .post("/create-storage", createStorage)
     .delete("/delete-storage/:id", deleteStorage)
     .patch("/update-storage/:id", updateStorage)
 

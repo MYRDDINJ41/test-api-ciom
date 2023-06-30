@@ -1,5 +1,7 @@
 //Import for config to DB
 import { db } from "../model/Storage.js";
+import { ref, uploadBytes, listAll, deleteObject, getDownloadURL } from "firebase/storage";
+import { storage }from "../model/firebase.config.js";
 
 // We GET all Solutions from DB Table solution_ciom
 export const getSolutions = async (req, res) => {
@@ -27,16 +29,12 @@ export const getSolutionId = async (req, res) => {
 
 // We can create one Solution for DB Table solution_ciom
 export const createSolution = async (req, res) => {
-  
   const { name_s, tittle_s, img_s, img_banner_s, description_s } = req.body;
-
   try {
-    
     const result = await db.query(
       "INSERT INTO solution_ciom (name_s, tittle_s, img_s, img_banner_s, description_s, active_NoActive, date_create, date_update) VALUES (?, ?, ?, ?, ?, 0, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())",
       [name_s, tittle_s, img_s, img_banner_s, description_s]
     );
-
     const affectedRows = result[0].affectedRows;
     res.send({ affectedRows });
   } catch (error) {
@@ -68,15 +66,10 @@ export const deleteSolution = async (req, res) => {
 export const updateSolution = async (req, res) => {
   try {
     const { id } = req.params;
-    const {
-      name_s,
-      tittle_s,
-      img_s,
-      description_s,
-    } = req.body;
+    const {tittle_s, img_s, description_s} = req.body;
     const result = await db.query(
-      "UPDATE solution_ciom SET name_s = IFNULL(?, name_s), tittle_s = IFNULL(?, tittle_s), img_s = IFNULL(?, img_s), description_s = IFNULL(?, description_s), date_update = UNIX_TIMESTAMP() WHERE id = ?",
-      [name_s, tittle_s, img_s, description_s, id]
+      "UPDATE solution_ciom SET tittle_s = IFNULL(?, tittle_s), img_s = IFNULL(?, img_s), description_s = IFNULL(?, description_s), date_update = UNIX_TIMESTAMP() WHERE id = ?",
+      [tittle_s, img_s, description_s, id]
     );
     const [rows] = await db.query(
       "SELECT * FROM solution_ciom WHERE id = ?",
