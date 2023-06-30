@@ -30,7 +30,7 @@ const upload = multer({ memoStorage });
 router
   .get("/solutions", getSolutions)
   .get("/solution/:id", getSolutionId)
-  .post("/create-solution", upload.array("media"), createSolution)
+  .post("/create-solution", upload.single("img_s"), createSolution)
   .delete("/delete-solution/:id", deleteSolution)
   .patch("/update-solution/:id", updateSolution);
 
